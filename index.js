@@ -1,6 +1,6 @@
 const express = require('express');
-const config = require('config');
 const mongoose = require('mongoose');
+const { mongoURI } = require('./config.js');
 
 const app = express();
 
@@ -10,12 +10,11 @@ app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/profile', require('./routes/home.routes'));
 app.use('/api/news', require('./routes/news.routes'));
 
-const PORT = process.env.PORT || config.get('port');
-const MONGODB = config.get('mongoUri');
+const PORT = process.env.PORT || 5000;
 
 async function start() {
   try {
-    await mongoose.connect(MONGODB, {
+    await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,

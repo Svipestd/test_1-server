@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const config = require('config');
+const { jwtSecret } = require('../config.js');
 
 module.exports = (req, res, next) => {
   if (req.method === "OPTIONS") {
@@ -9,19 +9,19 @@ module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split("Bearer ")[1];
     if (!token) {
-      res.status(401).json({ error: 'Отсутствует токен'})
+      res.status(401).json({ error: 'Отсутствует токен' })
     }
 
-    const decoded = jwt.verify(token, config.get('jwtSecret'));
-    if(!decoded) {
-      res.status(401).json({ error: 'Невалидный токен'})
+    const decoded = jwt.verify(token, jwtSecret);
+    if (!decoded) {
+      res.status(401).json({ error: 'Невалидный токен' })
     }
 
     req.user = decoded;
     next();
 
   } catch (err) {
-    res.status(401).json({ error: 'Нет авторизации'})
+    res.status(401).json({ error: 'Нет авторизации' })
   }
 
 }

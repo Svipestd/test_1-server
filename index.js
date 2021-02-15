@@ -11,10 +11,11 @@ app.use('/api/profile', require('./routes/home.routes'));
 app.use('/api/news', require('./routes/news.routes'));
 
 const PORT = process.env.PORT || config.get('port');
+const MONGODB = config.get('mongoUri');
 
 async function start() {
   try {
-    await mongoose.connect(config.get('mongoUri'), {
+    await mongoose.connect(MONGODB, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
